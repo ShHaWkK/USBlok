@@ -14,6 +14,12 @@ then add `@reboot echo 0 > /sys/bus/usb/drivers_autoprobe`
   
 This will block every USB device from interacting with your system by blocking drivers.
 
+### Boot-time limitation
+
+The `@reboot` rule is applied during system startup, not before the kernel begins probing hardware. A USB device that is already connected while the machine boots may therefore be detected before `drivers_autoprobe` is disabled.
+
+Treat USBlok as an additional runtime control, not as protection against an attacker with physical access to the machine. Inspect the machine and connected USB devices before booting when physical tampering is a concern. Full-disk encryption is still recommended for protecting data at rest, but it does not by itself guarantee that this USB auto-probing window is removed.
+
 Now, copy usbAccess.sh to a directory by adding execution rights with `$ chmod u+x usbAccess.sh`
 
 Lastly, add an alias to your "~/.bashrc" or "~/.bash_aliases":
